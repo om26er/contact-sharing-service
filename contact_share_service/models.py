@@ -1,3 +1,6 @@
+import os
+import uuid
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.db.models.signals import post_save
@@ -19,9 +22,18 @@ def finalize_account_creation(sender, instance=None, created=False, **kwargs):
         instance.save()
 
 
+def get_image_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    name = str(uuid.uuid4()).replace('-', '_')
+    filename = '{}.{}'.format(name, ext)
+    return os.path.join('images', filename)
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, blank=False, unique=True)
     full_name = models.CharField(max_length=255, blank=False)
+
+    password_reset_key = models.IntegerField(blank=False, default=-1)
 
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -50,3 +62,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.is_admin
 
+
+class Card(models.Model):
+    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, blank=False)
+    address = models.CharField(max_length=255, blank=False)
+    job_title = models.CharField(max_length=255, blank=False)
+    contact_number = models.CharField(max_length=255, blank=False)
+    email = models.EmailField(max_length=255, blank=False)
+    organization = models.CharField(max_length=255, blank=False)
+    image = models.ImageField(upload_to=get_image_file_path)
