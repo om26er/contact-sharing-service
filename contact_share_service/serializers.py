@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from contact_share_service.models import User
+from contact_share_service.models import User, Card
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,3 +14,20 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password', 'full_name', )
+
+
+class CardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Card
+        fields = (
+            'id',
+            'owner',
+            'name',
+            'address',
+            'job_title',
+            'contact_number',
+            'email',
+            'organization',
+            'image'
+        )

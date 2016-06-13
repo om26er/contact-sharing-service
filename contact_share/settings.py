@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-from contact_share_service.helpers.setting_helpers import SettingHelpers
+from contact_share.setting_helpers import SettingHelpers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +28,7 @@ config_helpers = SettingHelpers(CONFIG_FILE)
 SECRET_KEY = 'hr$ti^i6_#h2bc5qa*9^=cg_cm=+dxayfbu*=k-vbc-utuu*bk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config_helpers.get_debug_setting()
 
 ALLOWED_HOSTS = []
 
@@ -77,6 +77,12 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 WSGI_APPLICATION = 'contact_share.wsgi.application'
 
@@ -136,9 +142,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = '/static/'
 
 
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = get_email_credential_by_key('host')
-# EMAIL_HOST_USER = get_email_credential_by_key('email')
-# EMAIL_HOST_PASSWORD = get_email_credential_by_key('password')
-# EMAIL_PORT = get_email_credential_by_key('port')
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_TLS = True
+EMAIL_HOST = config_helpers.get_email_credential_by_key('host')
+EMAIL_HOST_USER = config_helpers.get_email_credential_by_key('email')
+EMAIL_HOST_PASSWORD = config_helpers.get_email_credential_by_key('password')
+EMAIL_PORT = config_helpers.get_email_credential_by_key('port')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
