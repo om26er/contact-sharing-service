@@ -17,6 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CardSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False)
+    is_image = serializers.BooleanField(required=True)
 
     class Meta:
         model = Card
@@ -29,5 +31,6 @@ class CardSerializer(serializers.ModelSerializer):
             'contact_number',
             'email',
             'organization',
-            'image'
+            'image',
+            'is_image',
         )

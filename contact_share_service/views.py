@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -15,6 +15,21 @@ from contact_share_service.helpers.response_helpers import ResponseConstructor
 
 class UserRegistrationView(CreateAPIView):
     serializer_class = UserSerializer
+
+
+class UserDetailsView(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(id=self.request.user.id)
+            serializer = UserSerializer(instance=user)
+            return Response(
+                data=serializer.data,
+                status=status.HTTP_200_OK
+            )
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class PasswordResetView(APIView):
