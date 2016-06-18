@@ -71,4 +71,5 @@ class Card(models.Model):
     contact_number = models.CharField(max_length=255, blank=False)
     email = models.EmailField(max_length=255, blank=False)
     organization = models.CharField(max_length=255, blank=False)
-    image = models.ImageField(upload_to=get_image_file_path)
+    image = models.ImageField(upload_to=get_image_file_path, blank=True)
+    is_image = models.BooleanField(blank=False, default=False)

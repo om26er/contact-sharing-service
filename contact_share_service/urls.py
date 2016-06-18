@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^api/login$', views.obtain_auth_token),
     url(r'^api/create', share_views.CreateCardView.as_view()),
     url(r'^api/retrieve', share_views.RetrieveCardsView.as_view()),
+    url(r'^api/me', share_views.UserDetailsView.as_view()),
 ]
