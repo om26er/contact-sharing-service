@@ -7,13 +7,18 @@ from contact_share_service.models import User, Card
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
-        validators=[UniqueValidator(queryset=User.objects.all())])
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
     password = serializers.CharField(write_only=True)
     full_name = serializers.CharField(required=True)
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'full_name', )
+        fields = (
+            'email',
+            'password',
+            'full_name',
+        )
 
 
 class CardSerializer(serializers.ModelSerializer):
@@ -32,5 +37,7 @@ class CardSerializer(serializers.ModelSerializer):
             'email',
             'organization',
             'image',
+            'logo',
             'is_image',
+            'design',
         )

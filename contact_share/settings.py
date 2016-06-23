@@ -12,13 +12,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-from contact_share.setting_helpers import SettingHelpers
+from contact_share.helpers import ConfigHelpers
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CONFIG_FILE = os.path.expanduser('~/contact_config.ini')
-config_helpers = SettingHelpers(CONFIG_FILE)
+config_helpers = ConfigHelpers(CONFIG_FILE)
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'contact_share_service',
     'rest_framework',
     'rest_framework.authtoken',
+    'simple_login',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -60,6 +61,7 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'contact_share.urls'
 AUTH_USER_MODEL = 'contact_share_service.User'
+APP_NAME = 'Contact Service'
 
 TEMPLATES = [
     {
